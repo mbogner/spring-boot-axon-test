@@ -1,0 +1,1 @@
+Test application for spring boot with axon 3 framework
