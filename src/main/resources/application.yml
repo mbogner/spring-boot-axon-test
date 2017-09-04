@@ -1,0 +1,77 @@
+server:
+  port: 8180
+
+endpoints:
+  enabled: false
+  health:
+    enabled: true
+  mappings:
+    enabled: true
+
+spring:
+  datasource:
+    # Connection url for the database
+    url: jdbc:h2:file:./db/db1;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    # Username and password
+    username: sa
+    password:
+    # Keep the connection alive if idle for a long time (needed in production)
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    hibernate:
+      # Hibernate ddl auto (create, create-drop, update): with "update" the database
+      # schema will be automatically updated accordingly to java entities found in
+      # the project
+      ddl-auto: update
+    # Use jpa.properties.* for Hibernate native properties (the prefix is
+    # stripped before adding them to the entity manager).
+    properties:
+      hibernate:
+        # Show or not log for each sql query
+        show_sql: true
+        # Format or not logged sql output
+        format_sql: true
+        # Allows Hibernate to generate SQL optimized for a particular DBMS
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2
+
+logging:
+  level:
+    ROOT: TRACE
+    javax.activation: INFO
+    javax.management: INFO
+    org.apache: INFO
+    org.axonframework: DEBUG
+    org.flywaydb: INFO
+    org.hibernate: INFO
+    #org.hibernate.SQL: DEBUG
+    #org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    #org.hibernate.type: TRACE
+    org.jboss.logging: INFO
+    org.springframework.aop: INFO
+    org.springframework.beans: INFO
+    org.springframework.boot: INFO
+    org.springframework.context: INFO
+    org.springframework.core: INFO
+    org.springframework.data: INFO
+    org.springframework.jdbc: INFO
+    org.springframework.jmx: INFO
+    org.springframework.orm: INFO
+    org.springframework.scheduling: INFO
+    org.springframework.security: INFO
+    org.springframework.test: INFO
+    org.springframework.transaction: INFO
+    org.springframework.ui: INFO
+    org.springframework.util: INFO
+    org.springframework.web: INFO
+    sun.rmi: INFO
+  pattern:
+    # enable following pattern to get full component names
+    console: "%d{HH:mm:ss.SSS} %5p [%t] %c - %m%n%wEx"
+  # see http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-logging-file-output
+  file:
+  path:
