@@ -25,8 +25,7 @@ public class TaskController {
 
     @RequestMapping(value = "/api/tasks", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createTask(@RequestBody @Valid CreateTaskRequest request) {
-        Object o = commandGateway.sendAndWait(new CreateTaskCommand(request.getName()));
-        LOG.debug("result: {}", o.getClass().getName());
+    public void createTask(@RequestBody @Valid final CreateTaskRequest request) {
+        commandGateway.send(new CreateTaskCommand(request.getName()));
     }
 }
