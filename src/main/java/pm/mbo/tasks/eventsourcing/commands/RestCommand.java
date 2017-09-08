@@ -4,10 +4,9 @@ import lombok.Data;
 import org.springframework.http.HttpHeaders;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Data
-public abstract class RestCommand implements Serializable {
+public abstract class RestCommand implements Command {
 
     // stored as Map<String, String>
     @NotNull

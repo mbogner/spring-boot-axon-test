@@ -8,11 +8,14 @@ import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.common.IdentifierFactory;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.MetaData;
-import org.axonframework.messaging.annotation.MetaDataValue;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pm.mbo.tasks.domain.CommonCommandHandler;
+import pm.mbo.tasks.domain.CommonEventHandler;
+import pm.mbo.tasks.domain.DomainEntity;
+import pm.mbo.tasks.domain.MetaDataKey;
 import pm.mbo.tasks.eventsourcing.commands.task.CreateTaskCommand;
 import pm.mbo.tasks.eventsourcing.commands.task.StarTaskCommand;
 import pm.mbo.tasks.eventsourcing.commands.task.UpdateNameCommand;
@@ -21,17 +24,12 @@ import pm.mbo.tasks.eventsourcing.events.task.TaskCreatedEvent;
 import pm.mbo.tasks.eventsourcing.events.task.TaskStarredEvent;
 
 import javax.validation.constraints.NotNull;
-import java.util.Map;
-
-import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
 @Aggregate
 @ToString
 @EqualsAndHashCode
 @Getter
-public class Task {
-
-    private static final String MD_HTTP_HEADERS = "http_headers";
+public class Task implements DomainEntity {
 
     private static final Logger LOG = LoggerFactory.getLogger(Task.class);
 
@@ -49,67 +47,52 @@ public class Task {
     }
 
     @CommandHandler
-    public Task(final CreateTaskCommand command) {
-        logCommandReceived(this, command);
-        apply(new TaskCreatedEvent(IdentifierFactory.getInstance().generateIdentifier(), command.getName(), command.getStarred()),
-                MetaData.with(MD_HTTP_HEADERS, command.getHttpHeaders()));
+    public Task(final CreateTaskCommand command, final CommonCommandHandler commandHandler) {
+        commandHandler.applyCommand(this, command,
+                new TaskCreatedEvent(IdentifierFactory.getInstance().generateIdentifier(), command.getName(), command.getStarred()),
+                MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
     @SuppressWarnings("UnusedDeclaration")
     @CommandHandler
-    public void handleCommand(final UpdateNameCommand command) {
-        logCommandReceived(this, command);
-        apply(new NameUpdatedEvent(command.getId(), command.getName()),
-                MetaData.with(MD_HTTP_HEADERS, command.getHttpHeaders()));
+    public void handleCommand(final UpdateNameCommand command, final CommonCommandHandler commandHandler) {
+        commandHandler.applyCommand(this, command,
+                new NameUpdatedEvent(command.getId(), command.getName()),
+                MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
     @SuppressWarnings("UnusedDeclaration")
     @CommandHandler
-    public void handleCommand(final StarTaskCommand command) {
-        logCommandReceived(this, command);
-        apply(new TaskStarredEvent(command.getId(), command.getStarred()),
-                MetaData.with(MD_HTTP_HEADERS, command.getHttpHeaders()));
+    public void handleCommand(final StarTaskCommand command, final CommonCommandHandler commandHandler) {
+        commandHandler.applyCommand(this, command,
+                new TaskStarredEvent(command.getId(), command.getStarred()),
+                MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
     @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
-    private void handleEvent(final TaskCreatedEvent event, @MetaDataValue(value = MD_HTTP_HEADERS, required = true) final Map<String, String> headers) {
-        logBeforeApply(this, event, headers);
-        this.id = event.getId();
-        this.name = event.getName();
-        this.starred = event.getStarred();
-        logAfterApply(this);
+    private void handleEvent(final TaskCreatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
+        eventHandler.applyCommand(this, event, metadata, () -> {
+            this.id = event.getId();
+            this.name = event.getName();
+            this.starred = event.getStarred();
+        });
     }
 
     @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
-    private void handleEvent(final NameUpdatedEvent event, @MetaDataValue(value = MD_HTTP_HEADERS, required = true) final Map<String, String> headers) {
-        logBeforeApply(this, event, headers);
-        this.name = event.getName();
-        logAfterApply(this);
+    private void handleEvent(final NameUpdatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
+        eventHandler.applyCommand(this, event, metadata, () -> {
+            this.name = event.getName();
+        });
     }
 
     @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
-    private void handleEvent(final TaskStarredEvent event, @MetaDataValue(value = MD_HTTP_HEADERS, required = true) final Map<String, String> headers) {
-        logBeforeApply(this, event, headers);
-        this.starred = event.getStarred();
-        logAfterApply(this);
-    }
-
-    private void logCommandReceived(final Object aggregate, final Object command) {
-        LOG.debug("got command: {}, actual state: {}", command, aggregate);
-    }
-
-    private void logBeforeApply(final Object aggregate, final Object event, final Object headers) {
-        LOG.debug("### processing event ###");
-        LOG.debug("headers: {}", headers);
-        LOG.debug("before event: {}", aggregate);
-        LOG.debug("apply: {}", event);
-    }
-
-    private void logAfterApply(final Object aggregate) {
-        LOG.debug("after event: {}", aggregate);
+    private void handleEvent(final TaskStarredEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
+        eventHandler.applyCommand(this, event, metadata, () -> {
+            this.starred = event.getStarred();
+        });
     }
 
 }
