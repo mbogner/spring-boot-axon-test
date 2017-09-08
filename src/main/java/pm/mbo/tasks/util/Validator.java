@@ -7,6 +7,9 @@ public final class Validator {
     }
 
     public static void notNull(final Object obj, final String name) {
+        if (null == name || name.isEmpty()) {
+            throw new IllegalArgumentException("please provide a name");
+        }
         if (null == obj) {
             throw new IllegalArgumentException(String.format("%s must not be null", name));
         }

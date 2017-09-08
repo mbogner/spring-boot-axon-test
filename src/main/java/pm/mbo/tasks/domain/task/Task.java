@@ -12,10 +12,10 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pm.mbo.tasks.domain.common.command.CommonCommandHandler;
-import pm.mbo.tasks.domain.common.event.CommonEventHandler;
 import pm.mbo.tasks.domain.common.DomainEntity;
 import pm.mbo.tasks.domain.common.MetaDataKey;
+import pm.mbo.tasks.domain.common.command.CommonCommandHandler;
+import pm.mbo.tasks.domain.common.event.CommonEventHandler;
 import pm.mbo.tasks.domain.task.command.CreateTaskCommand;
 import pm.mbo.tasks.domain.task.command.StarTaskCommand;
 import pm.mbo.tasks.domain.task.command.UpdateNameCommand;
@@ -53,7 +53,6 @@ public class Task implements DomainEntity {
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     @CommandHandler
     public void handleCommand(final UpdateNameCommand command, final CommonCommandHandler commandHandler) {
         commandHandler.applyCommand(this, command,
@@ -61,7 +60,6 @@ public class Task implements DomainEntity {
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     @CommandHandler
     public void handleCommand(final StarTaskCommand command, final CommonCommandHandler commandHandler) {
         commandHandler.applyCommand(this, command,
@@ -69,7 +67,6 @@ public class Task implements DomainEntity {
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
     private void handleEvent(final TaskCreatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
         eventHandler.applyCommand(this, event, metadata, () -> {
@@ -79,7 +76,6 @@ public class Task implements DomainEntity {
         });
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
     private void handleEvent(final NameUpdatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
         eventHandler.applyCommand(this, event, metadata, () -> {
@@ -87,7 +83,6 @@ public class Task implements DomainEntity {
         });
     }
 
-    @SuppressWarnings("UnusedDeclaration")
     @EventSourcingHandler
     private void handleEvent(final TaskStarredEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
         eventHandler.applyCommand(this, event, metadata, () -> {

@@ -16,10 +16,13 @@ import pm.mbo.tasks.rest.task.request.UpdateNameRequest;
 
 import javax.validation.Valid;
 
+import static pm.mbo.tasks.rest.ApiConstant.API_BASE;
+
 @RestController
 public class TaskController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskController.class);
+    public static final String URL = API_BASE + "/tasks";
 
     private final CommandGateway commandGateway;
 
@@ -28,7 +31,7 @@ public class TaskController {
         this.commandGateway = commandGateway;
     }
 
-    @RequestMapping(value = "/api/tasks", method = RequestMethod.POST)
+    @RequestMapping(value = URL, method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void createTask(@RequestHeader final HttpHeaders headers,
                            @RequestBody @Valid final CreateTaskRequest request) {
@@ -36,7 +39,7 @@ public class TaskController {
         commandGateway.send(new CreateTaskCommand(headers, request.getName(), request.getStarred()));
     }
 
-    @RequestMapping(value = "/api/tasks/{id}/name", method = RequestMethod.POST)
+    @RequestMapping(value = URL + "/{id}/name", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateName(@RequestHeader final HttpHeaders headers,
                            @PathVariable final String id,
@@ -45,7 +48,7 @@ public class TaskController {
         commandGateway.send(new UpdateNameCommand(headers, id, request.getName()));
     }
 
-    @RequestMapping(value = "/api/tasks/{id}/star", method = RequestMethod.POST)
+    @RequestMapping(value = URL + "/{id}/star", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void starTask(@RequestHeader final HttpHeaders headers,
                          @PathVariable final String id,

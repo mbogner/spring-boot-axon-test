@@ -10,6 +10,6 @@ public abstract class RestCommand implements Command {
 
     // stored as Map<String, String>
     @NotNull
-    protected final HttpHeaders httpHeaders;
+    private final HttpHeaders httpHeaders;
 
 }
