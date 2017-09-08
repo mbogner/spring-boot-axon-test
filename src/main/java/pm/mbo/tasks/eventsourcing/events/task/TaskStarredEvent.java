@@ -7,11 +7,9 @@ import static pm.mbo.tasks.eventsourcing.Revisions.REVISION_1_0;
 
 @Value
 @Revision(REVISION_1_0)
-public class TaskCreatedEvent implements TaskEvent {
+public class TaskStarredEvent implements TaskEvent {
 
     private final String id;
-
-    private final String name;
 
     private final Boolean starred;
 
