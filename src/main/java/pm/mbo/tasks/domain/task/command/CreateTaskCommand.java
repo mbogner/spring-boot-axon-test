@@ -1,4 +1,4 @@
-package pm.mbo.tasks.eventsourcing.commands.task;
+package pm.mbo.tasks.domain.task.command;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -6,11 +6,11 @@ import lombok.Value;
 import org.axonframework.serialization.Revision;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.http.HttpHeaders;
-import pm.mbo.tasks.eventsourcing.commands.RestCommand;
+import pm.mbo.tasks.domain.common.command.RestCommand;
 
 import javax.validation.constraints.NotNull;
 
-import static pm.mbo.tasks.eventsourcing.Revisions.REVISION_1_0;
+import static pm.mbo.tasks.domain.common.Revisions.REVISION_1_0;
 
 @Value
 @ToString(callSuper = true)

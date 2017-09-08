@@ -2,10 +2,10 @@ package pm.mbo.tasks.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pm.mbo.tasks.domain.CommonCommandHandler;
-import pm.mbo.tasks.domain.CommonEventHandler;
-import pm.mbo.tasks.domain.DefaultCommonCommandHandler;
-import pm.mbo.tasks.domain.DefaultCommonEventHandler;
+import pm.mbo.tasks.domain.common.command.CommonCommandHandler;
+import pm.mbo.tasks.domain.common.event.CommonEventHandler;
+import pm.mbo.tasks.domain.common.command.DefaultCommonCommandHandler;
+import pm.mbo.tasks.domain.common.event.DefaultCommonEventHandler;
 
 @Configuration
 public class DomainHandlerConfig {

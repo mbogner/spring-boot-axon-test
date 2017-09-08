@@ -1,4 +1,4 @@
-package pm.mbo.tasks.eventsourcing;
+package pm.mbo.tasks.domain.common;
 
 public final class Revisions {
 

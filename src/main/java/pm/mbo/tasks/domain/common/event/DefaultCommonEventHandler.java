@@ -1,9 +1,10 @@
-package pm.mbo.tasks.domain;
+package pm.mbo.tasks.domain.common.event;
 
 import org.axonframework.messaging.MetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pm.mbo.tasks.eventsourcing.events.Event;
+import pm.mbo.tasks.domain.common.DomainEntity;
+import pm.mbo.tasks.domain.common.MetaDataKey;
 
 public class DefaultCommonEventHandler implements CommonEventHandler {
 

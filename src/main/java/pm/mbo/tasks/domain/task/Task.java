@@ -12,16 +12,16 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pm.mbo.tasks.domain.CommonCommandHandler;
-import pm.mbo.tasks.domain.CommonEventHandler;
-import pm.mbo.tasks.domain.DomainEntity;
-import pm.mbo.tasks.domain.MetaDataKey;
-import pm.mbo.tasks.eventsourcing.commands.task.CreateTaskCommand;
-import pm.mbo.tasks.eventsourcing.commands.task.StarTaskCommand;
-import pm.mbo.tasks.eventsourcing.commands.task.UpdateNameCommand;
-import pm.mbo.tasks.eventsourcing.events.task.NameUpdatedEvent;
-import pm.mbo.tasks.eventsourcing.events.task.TaskCreatedEvent;
-import pm.mbo.tasks.eventsourcing.events.task.TaskStarredEvent;
+import pm.mbo.tasks.domain.common.command.CommonCommandHandler;
+import pm.mbo.tasks.domain.common.event.CommonEventHandler;
+import pm.mbo.tasks.domain.common.DomainEntity;
+import pm.mbo.tasks.domain.common.MetaDataKey;
+import pm.mbo.tasks.domain.task.command.CreateTaskCommand;
+import pm.mbo.tasks.domain.task.command.StarTaskCommand;
+import pm.mbo.tasks.domain.task.command.UpdateNameCommand;
+import pm.mbo.tasks.domain.task.event.NameUpdatedEvent;
+import pm.mbo.tasks.domain.task.event.TaskCreatedEvent;
+import pm.mbo.tasks.domain.task.event.TaskStarredEvent;
 
 import javax.validation.constraints.NotNull;
 

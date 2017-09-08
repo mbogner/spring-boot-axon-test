@@ -1,8 +1,8 @@
-package pm.mbo.tasks.domain;
+package pm.mbo.tasks.domain.common.command;
 
 import org.axonframework.messaging.MetaData;
-import pm.mbo.tasks.eventsourcing.commands.Command;
-import pm.mbo.tasks.eventsourcing.events.Event;
+import pm.mbo.tasks.domain.common.DomainEntity;
+import pm.mbo.tasks.domain.common.event.Event;
 
 public interface CommonCommandHandler {
 

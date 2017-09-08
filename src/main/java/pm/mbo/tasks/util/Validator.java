@@ -1,8 +1,8 @@
-package pm.mbo.tasks.validation;
+package pm.mbo.tasks.util;
 
-public final class ParamValidator {
+public final class Validator {
 
-    private ParamValidator() {
+    private Validator() {
         throw new IllegalAccessError();
     }
 

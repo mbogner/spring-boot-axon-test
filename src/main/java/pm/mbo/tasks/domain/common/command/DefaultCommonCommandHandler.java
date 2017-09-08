@@ -1,11 +1,11 @@
-package pm.mbo.tasks.domain;
+package pm.mbo.tasks.domain.common.command;
 
 import org.axonframework.messaging.MetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pm.mbo.tasks.eventsourcing.commands.Command;
-import pm.mbo.tasks.eventsourcing.events.Event;
-import pm.mbo.tasks.validation.ParamValidator;
+import pm.mbo.tasks.domain.common.DomainEntity;
+import pm.mbo.tasks.domain.common.event.Event;
+import pm.mbo.tasks.util.Validator;
 
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 
@@ -16,7 +16,7 @@ public class DefaultCommonCommandHandler implements CommonCommandHandler {
     @Override
     public void applyCommand(final DomainEntity aggregate, final Command command, final Event event, final MetaData metadata) {
         validateCommonParams(aggregate, command, event);
-        ParamValidator.notNull(metadata, "metadata");
+        Validator.notNull(metadata, "metadata");
         logCommandReceived(aggregate, command);
         apply(event, metadata);
     }
@@ -29,9 +29,9 @@ public class DefaultCommonCommandHandler implements CommonCommandHandler {
     }
 
     private void validateCommonParams(final DomainEntity aggregate, final Command command, final Event event) {
-        ParamValidator.notNull(aggregate, "aggregate");
-        ParamValidator.notNull(command, "command");
-        ParamValidator.notNull(event, "event");
+        Validator.notNull(aggregate, "aggregate");
+        Validator.notNull(command, "command");
+        Validator.notNull(event, "event");
     }
 
     private void logCommandReceived(final Object aggregate, final Object command) {

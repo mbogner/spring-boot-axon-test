@@ -1,4 +1,4 @@
-package pm.mbo.tasks.domain;
+package pm.mbo.tasks.domain.common;
 
 public final class MetaDataKey {
 

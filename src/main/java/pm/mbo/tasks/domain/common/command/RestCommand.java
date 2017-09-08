@@ -1,4 +1,4 @@
-package pm.mbo.tasks.eventsourcing.commands;
+package pm.mbo.tasks.domain.common.command;
 
 import lombok.Data;
 import org.springframework.http.HttpHeaders;
