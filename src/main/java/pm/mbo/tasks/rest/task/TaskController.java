@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import static pm.mbo.tasks.rest.ApiConstant.API_BASE;
 
 @RestController
+@RequestMapping(TaskController.URL)
 public class TaskController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskController.class);
@@ -32,7 +33,7 @@ public class TaskController {
         this.commandGateway = commandGateway;
     }
 
-    @RequestMapping(value = URL, method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public String createTask(@RequestHeader final HttpHeaders headers,
                              @RequestBody @Valid final CreateTaskRequest request) {
@@ -42,7 +43,7 @@ public class TaskController {
         return id;
     }
 
-    @RequestMapping(value = URL + "/{id}/name", method = RequestMethod.POST)
+    @RequestMapping(value = "{id}/name", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateName(@RequestHeader final HttpHeaders headers,
                            @PathVariable final String id,
@@ -51,7 +52,7 @@ public class TaskController {
         commandGateway.send(new UpdateNameCommand(headers, id, request.getName()));
     }
 
-    @RequestMapping(value = URL + "/{id}/star", method = RequestMethod.POST)
+    @RequestMapping(value = "{id}/star", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void starTask(@RequestHeader final HttpHeaders headers,
                          @PathVariable final String id,
