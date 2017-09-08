@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
-import org.axonframework.common.IdentifierFactory;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.spring.stereotype.Aggregate;
@@ -49,7 +48,7 @@ public class Task implements DomainEntity {
     @CommandHandler
     public Task(final CreateTaskCommand command, final CommonCommandHandler commandHandler) {
         commandHandler.applyCommand(this, command,
-                new TaskCreatedEvent(IdentifierFactory.getInstance().generateIdentifier(), command.getName(), command.getStarred()),
+                new TaskCreatedEvent(command.getId(), command.getName(), command.getStarred()),
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 

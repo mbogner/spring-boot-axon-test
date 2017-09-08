@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 import pm.mbo.tasks.Reflection;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,8 +70,9 @@ public class BeanTestUtil {
 
     protected <T> void checkDefaultConstructor(final Class<T> clazz) {
         try {
-            clazz.getDeclaredConstructor();
-        } catch (NoSuchMethodException e) {
+            final Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.newInstance();
+        } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
             fail("bean needs a default constructor");
         }
     }

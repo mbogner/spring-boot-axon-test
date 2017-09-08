@@ -21,13 +21,6 @@ public class DefaultCommonCommandHandler implements CommonCommandHandler {
         apply(event, metadata);
     }
 
-    @Override
-    public void applyCommand(final DomainEntity aggregate, final Command command, final Event event) {
-        validateCommonParams(aggregate, command, event);
-        logCommandReceived(aggregate, command);
-        apply(event);
-    }
-
     private void validateCommonParams(final DomainEntity aggregate, final Command command, final Event event) {
         Validator.notNull(aggregate, "aggregate");
         Validator.notNull(command, "command");

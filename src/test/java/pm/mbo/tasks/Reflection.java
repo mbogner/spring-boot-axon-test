@@ -25,7 +25,14 @@ public final class Reflection {
         if (clazz == Object.class) {
             return result;
         }
-        result.addAll(Arrays.asList(clazz.getDeclaredFields()));
+        for (Field field : Arrays.asList(clazz.getDeclaredFields())) {
+            if (field.getName().startsWith("$")) {
+                continue;
+            }
+            result.add(field);
+        }
+
+
         return getDeclaredFieldsOfHierarchy(clazz.getSuperclass(), result);
     }
 
@@ -37,17 +44,6 @@ public final class Reflection {
         }
         result.addAll(Arrays.asList(clazz.getDeclaredMethods()));
         return getDeclaredMethodsOfHierarchy(clazz.getSuperclass(), result);
-    }
-
-    public static Field findFieldByName(final String name, final List<Field> fields) {
-        assertNotNull(name);
-        assertNotNull(fields);
-        for (final Field field : fields) {
-            if (field.getName().equals(name)) {
-                return field;
-            }
-        }
-        return null;
     }
 
     public static Method findMethodByNameAndParams(final String name, final List<Method> methods, final Class<?>... params) {

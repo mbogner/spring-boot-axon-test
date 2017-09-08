@@ -13,7 +13,10 @@ public class CreateTaskCommandTest {
     }
 
     public static CreateTaskCommand createRandomCommand() {
-        return new CreateTaskCommand(new HttpHeaders(), DataGenerator.createRandomString(10), DataGenerator.createRandomBoolean());
+        return new CreateTaskCommand(new HttpHeaders(),
+                DataGenerator.createRandomString(10),
+                DataGenerator.createRandomString(10),
+                DataGenerator.createRandomBoolean());
     }
 
 }

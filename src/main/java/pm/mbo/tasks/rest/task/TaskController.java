@@ -1,6 +1,7 @@
 package pm.mbo.tasks.rest.task;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.common.IdentifierFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,13 @@ public class TaskController {
     }
 
     @RequestMapping(value = URL, method = RequestMethod.POST)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void createTask(@RequestHeader final HttpHeaders headers,
-                           @RequestBody @Valid final CreateTaskRequest request) {
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public String createTask(@RequestHeader final HttpHeaders headers,
+                             @RequestBody @Valid final CreateTaskRequest request) {
         LOG.debug("issue {}, headers: {}", request, headers);
-        commandGateway.send(new CreateTaskCommand(headers, request.getName(), request.getStarred()));
+        final String id = IdentifierFactory.getInstance().generateIdentifier();
+        commandGateway.send(new CreateTaskCommand(headers, id, request.getName(), request.getStarred()));
+        return id;
     }
 
     @RequestMapping(value = URL + "/{id}/name", method = RequestMethod.POST)

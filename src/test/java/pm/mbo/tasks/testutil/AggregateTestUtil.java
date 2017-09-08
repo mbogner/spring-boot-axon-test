@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 public class AggregateTestUtil extends BeanTestUtil {
 
@@ -19,12 +18,8 @@ public class AggregateTestUtil extends BeanTestUtil {
 
     @Override
     protected <T> void checkDefaultConstructor(final Class<T> clazz) {
-        try {
-            final Constructor<T> constructor = clazz.getDeclaredConstructor();
-            checkProtected("default constructor", constructor.getModifiers());
-        } catch (final NoSuchMethodException e) {
-            fail(String.format("there should be a default constructor in %s", clazz.getName()));
-        }
+        final Constructor<T> constructor = Reflection.getExistingConstructor(clazz);
+        checkProtected("default constructor", constructor.getModifiers());
     }
 
     @NotNull
