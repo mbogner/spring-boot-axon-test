@@ -1,4 +1,4 @@
-package pm.mbo.tasks.events.task;
+package pm.mbo.tasks.eventsourcing.events.task;
 
 import java.io.Serializable;
 

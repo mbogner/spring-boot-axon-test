@@ -45,7 +45,7 @@ logging:
     javax.activation: INFO
     javax.management: INFO
     org.apache: INFO
-    org.axonframework: DEBUG
+    org.axonframework: INFO
     org.flywaydb: INFO
     org.hibernate: INFO
     #org.hibernate.SQL: DEBUG
