@@ -53,6 +53,6 @@ jacoco {
 
 test {
     jacoco {
-        append = true
+        append = false
     }
 }

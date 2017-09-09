@@ -1,0 +1,41 @@
+server:
+  port: 8280
+
+endpoints:
+  enabled: false
+
+spring:
+  datasource:
+    # Connection url for the database
+    url: jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE
+    # Username and password
+    username: sa
+    password:
+    # Keep the connection alive if idle for a long time (needed in production)
+    testWhileIdle: false
+  jpa:
+    hibernate:
+      # Hibernate ddl auto (create, create-drop, update): with "update" the database
+      # schema will be automatically updated accordingly to java entities found in
+      # the project
+      ddl-auto: update
+    # Use jpa.properties.* for Hibernate native properties (the prefix is
+    # stripped before adding them to the entity manager).
+    properties:
+      hibernate:
+        # Show or not log for each sql query
+        show_sql: false
+        # Format or not logged sql output
+        format_sql: false
+        # Allows Hibernate to generate SQL optimized for a particular DBMS
+        dialect: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    ROOT: WARN
+  pattern:
+  file:
+  path:
