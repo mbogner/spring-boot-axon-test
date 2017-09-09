@@ -5,12 +5,16 @@ import org.axonframework.common.IdentifierFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pm.mbo.tasks.domain.task.command.CreateTaskCommand;
 import pm.mbo.tasks.domain.task.command.StarTaskCommand;
 import pm.mbo.tasks.domain.task.command.UpdateNameCommand;
+import pm.mbo.tasks.query.task.TaskEntry;
+import pm.mbo.tasks.query.task.TaskEntryRepository;
 import pm.mbo.tasks.rest.task.request.CreateTaskRequest;
 import pm.mbo.tasks.rest.task.request.StarTaskRequest;
 import pm.mbo.tasks.rest.task.request.UpdateNameRequest;
@@ -28,15 +32,20 @@ public class TaskController {
 
     private final CommandGateway commandGateway;
 
+    private final TaskEntryRepository taskEntryRepository;
+
     @Autowired
-    public TaskController(final CommandGateway commandGateway) {
+    public TaskController(final CommandGateway commandGateway,
+                          final TaskEntryRepository taskEntryRepository) {
         this.commandGateway = commandGateway;
+        this.taskEntryRepository = taskEntryRepository;
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public String createTask(@RequestHeader final HttpHeaders headers,
-                             @RequestBody @Valid final CreateTaskRequest request) {
+    public @ResponseBody
+    String createTask(@RequestHeader final HttpHeaders headers,
+                      @RequestBody @Valid final CreateTaskRequest request) {
         LOG.debug("issue {}, headers: {}", request, headers);
         final String id = IdentifierFactory.getInstance().generateIdentifier();
         commandGateway.send(new CreateTaskCommand(headers, id, request.getName(), request.getStarred()));
@@ -60,4 +69,14 @@ public class TaskController {
         LOG.debug("id: {}, issue {}, headers: {}", id, request, headers);
         commandGateway.send(new StarTaskCommand(headers, id, request.getStarred()));
     }
+
+    // pageable: ?page=0&limit=20&sort=name,desc&sort=id,asc
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(value = HttpStatus.OK)
+    public @ResponseBody
+    Page<TaskEntry> findAll(@RequestHeader final HttpHeaders headers, final Pageable pageable) {
+        LOG.debug("findAll: {}, headers: {}", pageable, headers);
+        return taskEntryRepository.findAll(pageable);
+    }
+
 }

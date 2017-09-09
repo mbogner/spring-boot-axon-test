@@ -70,6 +70,14 @@ public class TaskControllerIT {
         assertThat(response.getStatusCode(), equalTo(HttpStatus.NO_CONTENT));
     }
 
+    @Test
+    public void findAll() throws Exception {
+        final URL base = new URL(basePath);
+
+        final ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
+        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+    }
+
     private HttpEntity<String> wrapRq(final Object rq) throws JsonProcessingException {
         final HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);

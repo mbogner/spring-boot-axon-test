@@ -62,4 +62,13 @@ public class TaskControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    public void findAll() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .get(TaskController.URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 }
