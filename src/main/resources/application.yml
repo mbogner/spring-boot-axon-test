@@ -71,7 +71,7 @@ logging:
     sun.rmi: INFO
   pattern:
     # enable following pattern to get full component names
-    console: "%d{HH:mm:ss.SSS} %5p [%t] %c - %m%n%wEx"
+    #console: "%d{HH:mm:ss.SSS} %5p [%t] %c - %m%n%wEx"
   # see http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-logging-file-output
   file:
   path:
