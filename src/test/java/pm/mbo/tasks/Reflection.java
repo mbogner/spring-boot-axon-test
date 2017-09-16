@@ -96,7 +96,7 @@ public final class Reflection {
         final Constructor<T> constructor = clazz.getDeclaredConstructor();
         if (!Modifier.isPrivate(constructor.getModifiers()) &&
                 !Modifier.isProtected(constructor.getModifiers())) {
-            fail("constructor has to be private or package private");
+            fail("constructor has to be private or protected");
         }
         constructor.setAccessible(true);
         try {

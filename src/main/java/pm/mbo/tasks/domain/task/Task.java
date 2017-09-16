@@ -1,8 +1,6 @@
 package pm.mbo.tasks.domain.task;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -25,10 +23,11 @@ import pm.mbo.tasks.domain.task.event.TaskStarredEvent;
 import javax.validation.constraints.NotNull;
 
 @Aggregate
-@ToString
-@EqualsAndHashCode
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Getter
-public class Task implements DomainEntity {
+public class Task extends DomainEntity {
 
     private static final Logger LOG = LoggerFactory.getLogger(Task.class);
 
@@ -41,50 +40,51 @@ public class Task implements DomainEntity {
     @NotNull
     private Boolean starred;
 
-    protected Task() {
-        // needed by spring
-    }
-
     @CommandHandler
-    public Task(final CreateTaskCommand command, final CommonCommandHandler commandHandler) {
-        commandHandler.applyCommand(this, command,
+    public Task(final CreateTaskCommand command) {
+        CommonCommandHandler.applyCommand(this, command,
                 new TaskCreatedEvent(command.getId(), command.getName(), command.getStarred()),
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
+    @SuppressWarnings("unused")
     @CommandHandler
-    public void handleCommand(final UpdateNameCommand command, final CommonCommandHandler commandHandler) {
-        commandHandler.applyCommand(this, command,
+    public void handleCommand(final UpdateNameCommand command) {
+        CommonCommandHandler.applyCommand(this, command,
                 new NameUpdatedEvent(command.getId(), command.getName()),
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
+    @SuppressWarnings("unused")
     @CommandHandler
-    public void handleCommand(final StarTaskCommand command, final CommonCommandHandler commandHandler) {
-        commandHandler.applyCommand(this, command,
+    public void handleCommand(final StarTaskCommand command) {
+        CommonCommandHandler.applyCommand(this, command,
                 new TaskStarredEvent(command.getId(), command.getStarred()),
                 MetaData.with(MetaDataKey.HTTP_HEADERS, command.getHttpHeaders()));
     }
 
+    @SuppressWarnings("unused")
     @EventSourcingHandler
-    private void handleEvent(final TaskCreatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
-        eventHandler.applyCommand(this, event, metadata, () -> {
+    private void handleEvent(final TaskCreatedEvent event, final MetaData metadata) {
+        CommonEventHandler.applyCommand(this, event, metadata, () -> {
             this.id = event.getId();
             this.name = event.getName();
             this.starred = event.getStarred();
         });
     }
 
+    @SuppressWarnings("unused")
     @EventSourcingHandler
-    private void handleEvent(final NameUpdatedEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
-        eventHandler.applyCommand(this, event, metadata, () -> {
+    private void handleEvent(final NameUpdatedEvent event, final MetaData metadata) {
+        CommonEventHandler.applyCommand(this, event, metadata, () -> {
             this.name = event.getName();
         });
     }
 
+    @SuppressWarnings("unused")
     @EventSourcingHandler
-    private void handleEvent(final TaskStarredEvent event, final MetaData metadata, final CommonEventHandler eventHandler) {
-        eventHandler.applyCommand(this, event, metadata, () -> {
+    private void handleEvent(final TaskStarredEvent event, final MetaData metadata) {
+        CommonEventHandler.applyCommand(this, event, metadata, () -> {
             this.starred = event.getStarred();
         });
     }

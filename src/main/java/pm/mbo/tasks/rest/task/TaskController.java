@@ -43,9 +43,9 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public @ResponseBody
-    String createTask(@RequestHeader final HttpHeaders headers,
-                      @RequestBody @Valid final CreateTaskRequest request) {
+    @ResponseBody
+    public String createTask(@RequestHeader final HttpHeaders headers,
+                             @RequestBody @Valid final CreateTaskRequest request) {
         LOG.debug("issue {}, headers: {}", request, headers);
         final String id = IdentifierFactory.getInstance().generateIdentifier();
         commandGateway.send(new CreateTaskCommand(headers, id, request.getName(), request.getStarred()));
@@ -73,8 +73,8 @@ public class TaskController {
     // pageable: ?page=0&limit=20&sort=name,desc&sort=id,asc
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    public @ResponseBody
-    Page<TaskEntry> findAll(@RequestHeader final HttpHeaders headers, final Pageable pageable) {
+    @ResponseBody
+    public Page<TaskEntry> findAll(@RequestHeader final HttpHeaders headers, final Pageable pageable) {
         LOG.debug("findAll: {}, headers: {}", pageable, headers);
         return taskEntryRepository.findAll(pageable);
     }

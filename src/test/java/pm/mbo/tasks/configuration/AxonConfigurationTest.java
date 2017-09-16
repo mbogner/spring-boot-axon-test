@@ -8,7 +8,7 @@ public class AxonConfigurationTest {
 
     @Test
     public void getSerializer() throws Exception {
-        assertNotNull(new AxonConfiguration().getSerializer());
+        assertNotNull(new AxonConfiguration().serializer());
     }
 
 }
