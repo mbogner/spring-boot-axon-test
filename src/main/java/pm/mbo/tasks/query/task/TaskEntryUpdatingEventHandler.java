@@ -14,6 +14,7 @@ import pm.mbo.tasks.domain.task.event.TaskStarredEvent;
 public class TaskEntryUpdatingEventHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(TaskEntryUpdatingEventHandler.class);
+    public static final String DEBUG_EVENT_MESSAGE_TEMPLATE = "handle event: {}";
 
     private final TaskEntryRepository taskEntryRepository;
 
@@ -24,7 +25,7 @@ public class TaskEntryUpdatingEventHandler {
 
     @EventHandler
     private void handleEvent(final TaskCreatedEvent event, final MetaData metadata) {
-        LOG.debug("handle event: {}", event);
+        LOG.debug(DEBUG_EVENT_MESSAGE_TEMPLATE, event);
 
         final TaskEntry entry = new TaskEntry();
         entry.setId(event.getId());
@@ -36,7 +37,7 @@ public class TaskEntryUpdatingEventHandler {
 
     @EventHandler
     private void handleEvent(final NameUpdatedEvent event, final MetaData metadata) {
-        LOG.debug("handle event: {}", event);
+        LOG.debug(DEBUG_EVENT_MESSAGE_TEMPLATE, event);
 
         final TaskEntry entry = taskEntryRepository.findOne(event.getId());
         if (null != entry) {
@@ -47,7 +48,7 @@ public class TaskEntryUpdatingEventHandler {
 
     @EventHandler
     private void handleEvent(final TaskStarredEvent event, final MetaData metadata) {
-        LOG.debug("handle event: {}", event);
+        LOG.debug(DEBUG_EVENT_MESSAGE_TEMPLATE, event);
 
         final TaskEntry entry = taskEntryRepository.findOne(event.getId());
         if (null != entry) {

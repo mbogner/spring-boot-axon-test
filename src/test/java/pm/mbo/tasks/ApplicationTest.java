@@ -18,7 +18,7 @@ public class ApplicationTest {
     @Test
     public void testMain() throws Exception {
         Application.main();
-        assertThat(getOutput().contains(SPRING_STARTUP));
+        assertThat(getOutput().contains(SPRING_STARTUP)).isTrue();
     }
 
     private String getOutput() {
