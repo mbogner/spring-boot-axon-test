@@ -53,13 +53,22 @@ task wrapper(type: Wrapper) {
     gradleVersion = '3.5.1'
 }
 
-jacoco {
-    toolVersion = "0.7.9"
-}
-
 test {
     jacoco {
-        append = false
+        enabled = true
+    }
+}
+
+jacoco {
+    toolVersion = '0.7.9'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/report.xml"
+        html.enabled false
+        csv.enabled false
     }
 }
 
